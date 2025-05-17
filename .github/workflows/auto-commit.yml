@@ -1,0 +1,29 @@
+name: Daily Contributions
+
+on:
+  schedule:
+    - cron: "0 9 * * *"  # Runs every day at 09:00 UTC
+  workflow_dispatch:     # Allows manual triggering from GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Set up Git
+      run: |
+        git config --global user.name "Omar Thaljeni"
+        git config --global user.email "thaljeniomar@gmail.com"
+
+    - name: Run contribution script
+      run: |
+        chmod +x generate_contributions.sh
+        ./generate_contributions.sh
+
+    - name: Push commits
+      run: |
+        git push origin master
+
